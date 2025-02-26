@@ -3,6 +3,8 @@ const express = require("express");
 const cors = require("cors");
 const connectDB = require("./config/db");
 const admissionRoutes = require("./routes/admissionRoutes");
+const adminRoutes = require("./routes/adminRoutes");
+const verifyAdmin = require("./middleware/authMiddleware");
 
 const app = express();
 
@@ -15,10 +17,17 @@ app.use(express.urlencoded({ extended: true })); // Handle form data
 
 // Routes
 app.use("/api", admissionRoutes);
+// Admin Routes
+app.use("/api/admin", adminRoutes);
 
 app.use((err, req, res, next) => {
   console.error("🔥 Global Error:", err);
   res.status(500).json({ error: err.message || "Something went wrong" });
+});
+
+// Protected Route Example
+app.get("/api/admin/dashboard", verifyAdmin, (req, res) => {
+  res.json({ message: "Welcome to Admin Dashboard" });
 });
 
 // Start Server
