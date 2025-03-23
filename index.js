@@ -4,6 +4,7 @@ const cors = require("cors");
 const connectDB = require("./config/db");
 const admissionRoutes = require("./routes/admissionRoutes");
 const adminRoutes = require("./routes/adminRoutes");
+const contactRuutes = require("./routes/contactRoutes");
 const verifyAdmin = require("./middleware/authMiddleware");
 
 const app = express();
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: true })); // Handle form data
 app.use("/api", admissionRoutes);
 // Admin Routes
 app.use("/api/admin", adminRoutes);
+app.use('/api',contactRuutes)
 
 app.use((err, req, res, next) => {
   console.error("🔥 Global Error:", err);

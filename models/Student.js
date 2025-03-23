@@ -9,6 +9,7 @@ const StudentSchema = new mongoose.Schema({
   studentImage: { type: String, required: true },
   aadharFront: { type: String, required: true },
   aadharBack: { type: String, required: true },
+  joiningDate: { type: Date, default: Date.now },
 });
 
 module.exports = mongoose.model("Student", StudentSchema);

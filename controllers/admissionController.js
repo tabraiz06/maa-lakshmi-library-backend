@@ -1,10 +1,8 @@
 const Student = require("../models/Student");
 
 const addStudent = async (req, res) => {
-    
-    // console.log("Received Files:", JSON.stringify(req.files, null, 2));
+  // console.log("Received Files:", JSON.stringify(req.files, null, 2));
   try {
-
     if (
       !req.files ||
       !req.files.studentImage ||
@@ -38,14 +36,30 @@ const addStudent = async (req, res) => {
 const getStudents = async (req, res) => {
   try {
     const students = await Student.find();
-    return res.status(200).json({ students });
+    return res.status(200).json(students);
   } catch (error) {
     console.error("❌ Server Error:", error);
     return res
       .status(500)
       .json({ error: error.message || "Internal Server Error" });
   }
-}
+};
 
+// Delete student
+const deleteStudent = async (req, res) => {
+  try {
+    const student = await Student.findById(req.params.id);
+    if (!student) {
+      return res.status(404).json({ message: "Student not found" });
+    }
+    await Student.deleteOne({ _id: req.params.id });
+    return res.status(200).json({ message: "Student removed" });
+  } catch (error) {
+    console.error("❌ Server Error:", error);
+    return res
+      .status(500)
+      .json({ error: error.message || "Internal Server Error" });
+  }
+};
 
-module.exports = { addStudent, getStudents };
+module.exports = { addStudent, getStudents, deleteStudent };
