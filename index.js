@@ -17,10 +17,11 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true })); // Handle form data
 
 // Routes
-app.use("/api", admissionRoutes);
-// Admin Routes
-app.use("/api/admin", adminRoutes);
-app.use('/api',contactRuutes)
+app.use("/api/admin", adminRoutes); // Admin Routes
+app.use("/api",verifyAdmin, admissionRoutes);
+
+
+app.use("/api", contactRuutes);
 
 app.use((err, req, res, next) => {
   console.error("🔥 Global Error:", err);
